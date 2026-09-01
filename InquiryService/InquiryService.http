@@ -1,0 +1,6 @@
+@InquiryService_HostAddress = http://localhost:5135
+
+GET {{InquiryService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
