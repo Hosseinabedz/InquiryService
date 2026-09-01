@@ -57,8 +57,7 @@ namespace InquiryService.Domain.Entities
         private void EnsureProcessing()
         {
             if (Status != ProviderAttemptStatus.Processing)
-                throw new InvalidOperationException(
-                    "Provider attempt is already completed.");
+                throw new InvalidOperationException("Provider attempt is already completed.");
         }
     }
 }
