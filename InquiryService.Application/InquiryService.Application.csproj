@@ -10,9 +10,4 @@
     <ProjectReference Include="..\InquiryService.Domain\InquiryService.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Inquiries\Models\" />
-    <Folder Include="Inquiries\Commands\" />
-  </ItemGroup>
-
 </Project>

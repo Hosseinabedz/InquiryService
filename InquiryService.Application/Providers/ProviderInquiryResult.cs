@@ -1,6 +1,7 @@
 ﻿namespace InquiryService.Application.Providers
 {
-    internal class ProviderInquiryResult
-    {
-    }
+    public sealed record ProviderInquiryResult(
+        ProviderResultStatus Status,
+        decimal? Amount,
+        string? ErrorMessage);
 }

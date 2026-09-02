@@ -4,7 +4,5 @@ using System.Text;
 
 namespace InquiryService.Application.Providers
 {
-    internal class PaymentInquiryRequest
-    {
-    }
+    public record PaymentInquiryRequest(string BillId);
 }
