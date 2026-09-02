@@ -4,7 +4,7 @@ using System.Text;
 
 namespace InquiryService.Application.Providers
 {
-    public interface IPaymentProviderExecuter
+    public interface IPaymentProviderExecutor
     {
         Task<ProviderInquiryResult> ExecuteAsync(PaymentInquiryRequest request, CancellationToken cancellationToken);
     }

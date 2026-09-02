@@ -1,22 +1,23 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace InquiryService.Application.Providers
 {
-    public class PaymentProviderExecuter(
+    public class PaymentProviderExecutor(
         IEnumerable<IPaymentProvider> providers,
-        PaymentProviderOptions options,
-        ILogger<PaymentProviderExecuter> logger) : IPaymentProviderExecuter
+        IOptions<PaymentProviderOptions> options,
+        ILogger<PaymentProviderExecutor> logger) : IPaymentProviderExecutor
     {
         private readonly IEnumerable<IPaymentProvider> _providers = providers;
-        private readonly ILogger<PaymentProviderExecuter> _logger = logger;
-        private readonly PaymentProviderOptions _options = options;
+        private readonly ILogger<PaymentProviderExecutor> _logger = logger;
+        private readonly IOptions<PaymentProviderOptions >_options = options;
 
         public async Task<ProviderInquiryResult> ExecuteAsync(PaymentInquiryRequest request, CancellationToken cancellationToken)
         {
-            var providerSettings = _options.Providers
+            var providerSettings = _options.Value.Providers
                 .OrderBy(x => x.Priority)
                 .ToList();
 
