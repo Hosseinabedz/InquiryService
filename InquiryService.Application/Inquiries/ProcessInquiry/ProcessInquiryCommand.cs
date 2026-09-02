@@ -2,4 +2,3 @@
 {
     public sealed record ProcessInquiryCommand(string BillId);
 }
-}

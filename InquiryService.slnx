@@ -2,5 +2,6 @@
   <Project Path="InquiryService.Application/InquiryService.Application.csproj" />
   <Project Path="InquiryService.Domain/InquiryService.Domain.csproj" />
   <Project Path="InquiryService.Infrastructure/InquiryService.Infrastructure.csproj" />
+  <Project Path="InquiryService.Tests/InquiryService.Tests.csproj" Id="92c7a10b-4706-418b-95e4-ec38b92d8957" />
   <Project Path="InquiryService/InquiryService.API.csproj" />
 </Solution>
