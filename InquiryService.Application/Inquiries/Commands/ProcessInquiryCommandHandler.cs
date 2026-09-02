@@ -1,13 +1,21 @@
-﻿using InquiryService.Application.Providers;
+﻿using InquiryService.Application.Abstractions;
+using InquiryService.Application.Inquiries.Models;
+using InquiryService.Application.Providers;
 using InquiryService.Domain.Entities;
 using InquiryService.Domain.Enums;
+using InquiryService.Domain.Repositories;
 using MediatR;
 
-namespace InquiryService.Application.Inquiries.ProcessInquiry
+namespace InquiryService.Application.Inquiries.Commands
 {
-    public class ProcessInquiryHandler(IPaymentProviderExecutor providerExecutor) : IRequestHandler<ProcessInquiryCommand, ProcessInquiryResult>
+    public class ProcessInquiryCommandHandler(
+        IPaymentProviderExecutor providerExecutor,
+        IUnitOfWork unitOfWork,
+        IInquiryRepository inquiryRepository) : IRequestHandler<ProcessInquiryCommand, ProcessInquiryResult>
     {
         private readonly IPaymentProviderExecutor _providerExecutor = providerExecutor;
+        private readonly IUnitOfWork _unitOfWork = unitOfWork;
+        private readonly IInquiryRepository _inquiryRepository = inquiryRepository;
 
         public async Task<ProcessInquiryResult> Handle(ProcessInquiryCommand request, CancellationToken cancellationToken)
         {
@@ -45,6 +53,10 @@ namespace InquiryService.Application.Inquiries.ProcessInquiry
                     "Inquiry failed!",
                     DateTime.UtcNow);
             }
+
+            await _inquiryRepository.AddAsync(inquiry, cancellationToken);
+
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return new ProcessInquiryResult(
                 inquiry.Id,
