@@ -14,16 +14,18 @@ namespace InquiryService.Domain.Entities
 
         private ProviderAttempt() { }
 
-        private ProviderAttempt(Guid inquiryId, string providerName, DateTime startedAt)
+        private ProviderAttempt(Guid inquiryId, string providerName, ProviderAttemptStatus status, DateTime startedAt, DateTime completedAt, string? errorMessage)
         {
             Id = Guid.NewGuid();
             InquiryId = inquiryId;
-            Status = ProviderAttemptStatus.Processing;
+            Status = status;
             ProviderName = providerName;
             StartedAt = startedAt;
+            CompletedAt = completedAt;
+            ErrorMessage = errorMessage;
         }
 
-        public static ProviderAttempt Create(Guid inquiryId, string providerName, DateTime startedAt)
+        public static ProviderAttempt Create(Guid inquiryId, string providerName, ProviderAttemptStatus status, DateTime startedAt, DateTime completedAt, string? errorMessage)
         {
             if (inquiryId == Guid.Empty)
                 throw new ArgumentException("Inquiry id cannot be empty.", nameof(inquiryId));
@@ -31,7 +33,7 @@ namespace InquiryService.Domain.Entities
             if (string.IsNullOrWhiteSpace(providerName))
                 throw new ArgumentException("Provider name cannot be empty.", nameof(providerName));
 
-            return new ProviderAttempt(inquiryId, providerName, startedAt);
+            return new ProviderAttempt(inquiryId, providerName, status, startedAt, completedAt, errorMessage);
         }
 
         public void Complete(DateTime completedAt)

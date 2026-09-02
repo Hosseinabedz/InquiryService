@@ -17,7 +17,7 @@ namespace InquiryService.Domain.Entities
 
 
         private Inquiry() { }
-        public Inquiry(Guid id, string billId, DateTime createdAt)
+        private Inquiry(Guid id, string billId, DateTime createdAt)
         {
             if (id == Guid.Empty)
                 throw new ArgumentException("Inquiry id cannot be empty.", nameof(id));
@@ -31,6 +31,11 @@ namespace InquiryService.Domain.Entities
             Status = InquiryStatus.Pending;
         }
 
+        public static Inquiry Create(string billId, DateTime createdAt)
+        {
+            return new Inquiry(Guid.NewGuid(), billId, createdAt);
+        }
+
         public void StartProcessing()
         {
             if (Status != InquiryStatus.Pending)
@@ -40,7 +45,7 @@ namespace InquiryService.Domain.Entities
             Status = InquiryStatus.Processing;
         }
 
-        public ProviderAttempt AddProviderAttempt(string providerName, DateTime startedAt)
+        public ProviderAttempt AddProviderAttempt(string providerName, ProviderAttemptStatus status, DateTime startedAt, DateTime completedAt, string? errorMessage)
         {
             if (Status != InquiryStatus.Processing)
                 throw new InvalidOperationException(
@@ -49,7 +54,10 @@ namespace InquiryService.Domain.Entities
             var attempt = ProviderAttempt.Create(
                 Id,
                 providerName,
-                startedAt);
+                status,
+                startedAt,
+                completedAt,
+                errorMessage);
 
             _providerAttempts.Add(attempt);
 

@@ -83,8 +83,8 @@ namespace InquiryService.Tests
                 request,
                 CancellationToken.None);
 
-            result.Status.Should().Be(ProviderResultStatus.Success);
-            result.Amount.Should().Be(125_000);
+            result.FinalResult.Status.Should().Be(ProviderResultStatus.Success);
+            result.FinalResult.Amount.Should().Be(125_000);
 
             _mellatProvider.Verify(
                 x => x.InquiryAsync(
@@ -118,8 +118,8 @@ namespace InquiryService.Tests
                 request,
                 CancellationToken.None);
 
-            result.Status.Should().Be(ProviderResultStatus.BusinessError);
-            result.ErrorMessage.Should().Be("Invalid bill id.");
+            result.FinalResult.Status.Should().Be(ProviderResultStatus.BusinessError);
+            result.FinalResult.ErrorMessage.Should().Be("Invalid bill id.");
 
             _mellatProvider.Verify(
                 x => x.InquiryAsync(

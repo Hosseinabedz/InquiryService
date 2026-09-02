@@ -6,6 +6,6 @@ namespace InquiryService.Application.Providers
 {
     public interface IPaymentProviderExecutor
     {
-        Task<ProviderInquiryResult> ExecuteAsync(PaymentInquiryRequest request, CancellationToken cancellationToken);
+        Task<PaymentProviderExecutionResult> ExecuteAsync(PaymentInquiryRequest request, CancellationToken cancellationToken);
     }
 }

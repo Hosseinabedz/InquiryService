@@ -15,8 +15,10 @@ namespace InquiryService.Application.Providers
         private readonly ILogger<PaymentProviderExecutor> _logger = logger;
         private readonly IOptions<PaymentProviderOptions >_options = options;
 
-        public async Task<ProviderInquiryResult> ExecuteAsync(PaymentInquiryRequest request, CancellationToken cancellationToken)
+        public async Task<PaymentProviderExecutionResult> ExecuteAsync(PaymentInquiryRequest request, CancellationToken cancellationToken)
         {
+            var attempts = new List<ProviderAttemptResult>();
+
             var providerSettings = _options.Value.Providers
                 .OrderBy(x => x.Priority)
                 .ToList();
@@ -34,20 +36,33 @@ namespace InquiryService.Application.Providers
 
                 _logger.LogInformation("Executing payment inquiry using provider {ProviderName}.", provider.Name);
 
+                var startedAt = DateTime.UtcNow;
+
                 var result = await ExecuteProviderAsync(provider, request, setting.TimeoutSeconds, cancellationToken);
+
+                var completedAt = DateTime.UtcNow;
+
+                attempts.Add(new ProviderAttemptResult(
+                    provider.Name,
+                    result.Status,
+                    result.ErrorMessage,
+                    startedAt,
+                    completedAt));
 
                 if (result.Status == ProviderResultStatus.Success || result.Status == ProviderResultStatus.BusinessError)
                 {
-                    return result;
+                    return new PaymentProviderExecutionResult(result, attempts);
                 }
 
                 _logger.LogWarning("Provider {ProviderName} failed with status {Status}. Trying next provider.", provider.Name, result.Status);
             }
 
-            return new ProviderInquiryResult(
-            ProviderResultStatus.TechnicalError,
-            null,
-            "All payment providers are unavailable.");
+            return new PaymentProviderExecutionResult(
+                new ProviderInquiryResult(
+                    ProviderResultStatus.TechnicalError,
+                    null,
+                    "All payment providers are unavailable."),
+                attempts);
         }
 
         private static async Task<ProviderInquiryResult> ExecuteProviderAsync(
