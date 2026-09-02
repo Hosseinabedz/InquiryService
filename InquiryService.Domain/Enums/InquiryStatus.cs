@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace InquiryService.Domain.Enums
+﻿namespace InquiryService.Domain.Enums
 {
     public enum InquiryStatus
     {
