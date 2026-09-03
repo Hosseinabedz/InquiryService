@@ -1,4 +1,5 @@
 ﻿using InquiryService.Application.Abstractions;
+using InquiryService.Application.Inquiries;
 using InquiryService.Application.Providers;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -15,6 +16,8 @@ namespace InquiryService.Application
                 cfg.RegisterServicesFromAssembly(typeof(Extensions).Assembly));
 
             services.AddScoped<IPaymentProviderExecutor, PaymentProviderExecutor>();
+
+            services.AddSingleton<InquiryProcessingLock>();
 
             return services;
         }
