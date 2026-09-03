@@ -1,4 +1,4 @@
-﻿namespace InquiryService.Application.Providers
+﻿namespace InquiryService.Application.Providers.Models
 {
     public sealed record ProviderInquiryResult(
         ProviderResultStatus Status,

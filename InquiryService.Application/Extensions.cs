@@ -1,6 +1,7 @@
 ﻿using InquiryService.Application.Abstractions;
 using InquiryService.Application.Inquiries;
-using InquiryService.Application.Providers;
+using InquiryService.Application.Providers.Abstractions;
+using InquiryService.Application.Providers.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;

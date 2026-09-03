@@ -35,31 +35,5 @@ namespace InquiryService.Domain.Entities
 
             return new ProviderAttempt(inquiryId, providerName, status, startedAt, completedAt, errorMessage);
         }
-
-        public void Complete(DateTime completedAt)
-        {
-            EnsureProcessing();
-
-            CompletedAt = completedAt;
-            Status = ProviderAttemptStatus.Success;
-        }
-
-        public void Fail(string errorMessage, DateTime completedAt)
-        {
-            EnsureProcessing();
-
-            if (string.IsNullOrWhiteSpace(errorMessage))
-                throw new ArgumentException("Error message cannot be empty.", nameof(errorMessage));
-
-            CompletedAt = completedAt;
-            Status = ProviderAttemptStatus.TechnicalError;
-            ErrorMessage = errorMessage;
-        }
-
-        private void EnsureProcessing()
-        {
-            if (Status != ProviderAttemptStatus.Processing)
-                throw new InvalidOperationException("Provider attempt is already completed.");
-        }
     }
 }

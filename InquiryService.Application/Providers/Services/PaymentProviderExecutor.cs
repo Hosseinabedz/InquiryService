@@ -1,10 +1,13 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using InquiryService.Application.Providers.Abstractions;
+using InquiryService.Application.Providers.Configurations;
+using InquiryService.Application.Providers.Models;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace InquiryService.Application.Providers
+namespace InquiryService.Application.Providers.Services
 {
     public class PaymentProviderExecutor(
         IEnumerable<IPaymentProvider> providers,

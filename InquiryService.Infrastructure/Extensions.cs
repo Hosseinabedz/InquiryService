@@ -1,5 +1,6 @@
 ﻿using InquiryService.Application.Abstractions;
-using InquiryService.Application.Providers;
+using InquiryService.Application.Providers.Abstractions;
+using InquiryService.Application.Providers.Configurations;
 using InquiryService.Domain.Repositories;
 using InquiryService.Infrastructure.Persistence;
 using InquiryService.Infrastructure.Persistence.Repositories;

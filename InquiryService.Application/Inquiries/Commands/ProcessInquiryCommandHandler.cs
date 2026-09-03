@@ -1,6 +1,7 @@
 ﻿using InquiryService.Application.Abstractions;
 using InquiryService.Application.Inquiries.Models;
-using InquiryService.Application.Providers;
+using InquiryService.Application.Providers.Abstractions;
+using InquiryService.Application.Providers.Models;
 using InquiryService.Domain.Entities;
 using InquiryService.Domain.Enums;
 using InquiryService.Domain.Repositories;

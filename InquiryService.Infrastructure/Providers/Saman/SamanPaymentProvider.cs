@@ -1,4 +1,5 @@
-﻿using InquiryService.Application.Providers;
+﻿using InquiryService.Application.Providers.Abstractions;
+using InquiryService.Application.Providers.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;

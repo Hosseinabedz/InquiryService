@@ -1,4 +1,6 @@
-﻿namespace InquiryService.Application.Providers
+﻿using InquiryService.Application.Providers.Models;
+
+namespace InquiryService.Application.Providers.Abstractions
 {
     public interface IPaymentProvider
     {

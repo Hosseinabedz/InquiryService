@@ -1,12 +1,11 @@
 ﻿using FluentAssertions;
-using InquiryService.Application.Providers;
+using InquiryService.Application.Providers.Abstractions;
+using InquiryService.Application.Providers.Configurations;
+using InquiryService.Application.Providers.Models;
+using InquiryService.Application.Providers.Services;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Timers;
 
 namespace InquiryService.Tests
 {
