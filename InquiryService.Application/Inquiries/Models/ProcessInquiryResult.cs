@@ -3,7 +3,7 @@
 namespace InquiryService.Application.Inquiries.Models
 {
     public sealed record ProcessInquiryResult(
-        Guid InquiryrId,
+        Guid InquiryId,
         InquiryStatus Status,
         decimal? Amount,
         string? Result);

@@ -1,9 +1,6 @@
-﻿using InquiryService.Infrastructure.Persistence;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using InquiryService.Application.Abstractions;
 
-namespace InquiryService.Application.Abstractions
+namespace InquiryService.Infrastructure.Persistence
 {
     public class UnitOfWork(AppDbContext dbContext) : IUnitOfWork
     {

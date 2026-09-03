@@ -68,7 +68,7 @@ namespace InquiryService.Application.Inquiries.Commands
                 }
                 else
                 {
-                    inquiry.Fail(
+                    inquiry.Fail(   
                         "Inquiry failed!",
                         DateTime.UtcNow);
                 }
