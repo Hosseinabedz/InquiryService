@@ -5,20 +5,29 @@ using InquiryService.Domain.Entities;
 using InquiryService.Domain.Enums;
 using InquiryService.Domain.Repositories;
 using MediatR;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace InquiryService.Application.Inquiries.Commands
 {
     public class ProcessInquiryCommandHandler(
         IPaymentProviderExecutor providerExecutor,
+        IMemoryCache cache,
         IUnitOfWork unitOfWork,
         IInquiryRepository inquiryRepository) : IRequestHandler<ProcessInquiryCommand, ProcessInquiryResult>
     {
         private readonly IPaymentProviderExecutor _providerExecutor = providerExecutor;
+        private readonly IMemoryCache _cache = cache;
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
         private readonly IInquiryRepository _inquiryRepository = inquiryRepository;
 
         public async Task<ProcessInquiryResult> Handle(ProcessInquiryCommand request, CancellationToken cancellationToken)
         {
+            var cacheKey = $"inquiry:{request.BillId}";
+
+            if (!request.IgnoreCache && _cache.TryGetValue<ProcessInquiryResult>(cacheKey, out var cachedResult))
+                return cachedResult!;
+
+
             var inquiry = Inquiry.Create(request.BillId, DateTime.UtcNow);
 
             inquiry.StartProcessing();
@@ -38,12 +47,12 @@ namespace InquiryService.Application.Inquiries.Commands
                 );
             }
 
-            var result = executionResult.FinalResult;
+            var providerResult = executionResult.FinalResult;
 
-            if (result.Status == ProviderResultStatus.Success)
+            if (providerResult.Status == ProviderResultStatus.Success)
             {
                 inquiry.Complete(
-                    result.Amount!.Value,
+                    providerResult.Amount!.Value,
                     "Inquiry completed successfully!",
                     DateTime.UtcNow);
             }
@@ -58,12 +67,18 @@ namespace InquiryService.Application.Inquiries.Commands
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            return new ProcessInquiryResult(
+            var result = new ProcessInquiryResult(
                 inquiry.Id,
                 inquiry.Status,
                 inquiry.Amount,
                 inquiry.Result);
 
+            _cache.Set(
+                cacheKey,
+                result,
+                TimeSpan.FromMinutes(5));
+
+            return result;
         }
 
         private static ProviderAttemptStatus MapAttemptStatus(

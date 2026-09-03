@@ -15,7 +15,7 @@ namespace InquiryService.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Inquiries([FromBody] ProcessInquiryRequest request, CancellationToken cancellationToken)
         {
-            var command = new ProcessInquiryCommand(request.BillId);
+            var command = new ProcessInquiryCommand(request.BillId, request.IgnoreCache);
             var result = await _mediator.Send(command, cancellationToken);
             return Ok(result);
         }

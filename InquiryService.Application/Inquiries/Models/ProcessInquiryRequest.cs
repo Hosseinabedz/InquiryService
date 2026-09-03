@@ -4,5 +4,5 @@ using System.Text;
 
 namespace InquiryService.Application.Inquiries.Models
 {
-    public sealed record ProcessInquiryRequest(string BillId);
+    public sealed record ProcessInquiryRequest(string BillId, bool IgnoreCache);
 }
